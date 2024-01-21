@@ -19,7 +19,7 @@ Simulates the receiver device, supporting the properry MicGain.
 
 ## Technology
 
-The backend service is a ASP.NET Web API, providing rest endpoints to control the backend. These endpoints could be called by any capable UI.
+The backend service is a ASP.NET Web API, providing REST endpoints to control the backend. These endpoints could be called by any capable UI.
 
 The simulator is a ASP.NET Web API as well and populates endpoints to get and set the MicGain property for the receiver device it simulates.
 
@@ -57,15 +57,15 @@ The database used is SQLite in file mode, during integration tests in memory mod
 * Pessimistic locking by receiver (but not by API)
 
 ## How to use
-Both applications provide native Swagger UI access which is opened automatically, when debugging is started. Using Swagger UI both services can easily be controlled manually.
+Both applications provide native Swagger UI access which is opened automatically when debugging is started. Using Swagger UI both services can easily be controlled manually.
 
 The backend service also provides detailed logging to stdout.
 
 The simulation provides a virtual device with the following parameters:
 
-Host: localhost
-Port: \<see log output when starting sim\>
-Name: SimReceiver
+Host: localhost  
+Port: \<see log output when starting sim\>  
+Name: SimReceiver  
 
 The PATCH endpoint for receivers allows modification of the receiver object using JsonPatch. To set the MicGain property to e.g. 60, the following PatchDocument is required:
 
@@ -110,17 +110,16 @@ To run the tests after importing the collection as described under prerequisites
 ![Collection Menu](images/postman-port.png)
 1. Select the three dorts on the right side of the collection entry.
 1. Select "Run Collection"  
-![Collection Menu](images/postman-collection-menu.png)
-1. Change "Delay" on the right hand side to 500 ms.
 1. Click "Run Sennheiser Testing" button.  
 ![Collection Menu](images/postman-run-tests.png)
 
-*Important: The tests should run on a clean database. To have a fresh database, delete the database.db file in the solution directory. The tests clean themselves up after each run.*
+*Important: The tests should run on a clean database to avoid conflicts when creating the new receiver. To have a fresh database, delete the database.db file in the solution directory. The tests clean themselves up after each run.*
 
 ## Features
 * Control services using Swagger UI
 * Send MicGain from backend to receiver / simulation and vise versa via websockets
-* Keep data persistent during reconnects, give precedence to receiver / simulation
+* Keep data persistent during writes, give precedence to receiver / simulation
+* Give the receiver's state precedence over the current backend state when connecting
 * Immedeately detect a loss in connection without former closure and detect as such
 * Close connection gracefully
 * Report back in API response when connection not possible
