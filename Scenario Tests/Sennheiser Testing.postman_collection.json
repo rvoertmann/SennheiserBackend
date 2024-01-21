@@ -1,0 +1,481 @@
+{
+	"info": {
+		"_postman_id": "8a458045-b148-404b-b3fb-24a6c1c47471",
+		"name": "Sennheiser Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11091717"
+	},
+	"item": [
+		{
+			"name": "REC: Get current MicGain",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"    pm.collectionVariables.set(\"initialRecMicGain\", pm.response.json());\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5248/micgain",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5248",
+					"path": [
+						"micgain"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BE: Create Receiver",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(201);\r",
+							"    pm.collectionVariables.set(\"receiverId\", pm.response.json().id);\r",
+							"    pm.collectionVariables.set(\"initialMicGain\", pm.response.json().microphone.micgain);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"SimReceiver\",\r\n    \"host\": \"localhost\",\r\n    \"port\": 5248\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5083/receivers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5083",
+					"path": [
+						"receivers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BE: Open connection",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Response status code is 204\", function () {\r",
+							"  pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5083/receivers/{{receiverId}}/connection",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5083",
+					"path": [
+						"receivers",
+						"{{receiverId}}",
+						"connection"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BE: Check MicGain Overwritten",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Response status code is 200', function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"MicGain is same as REC\", function () {\r",
+							"  const responseData = pm.response.json();\r",
+							"  \r",
+							"  pm.expect(responseData.microphone).to.have.property('micGain').that.is.a('number').and.satisfy((micGain) => micGain == pm.collectionVariables.get(\"initialRecMicGain\"));\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5083/receivers/{{receiverId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5083",
+					"path": [
+						"receivers",
+						"{{receiverId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change Mic Gain Backend",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n  {\r\n    \"operationType\": 0,\r\n    \"path\": \"Microphone/MicGain\",\r\n    \"op\": \"add\",\r\n    \"value\": 45\r\n  }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5083/receivers/{{receiverId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5083",
+					"path": [
+						"receivers",
+						"{{receiverId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check MicGain Updated BE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"MicGain is 45\", function () {\r",
+							"  const responseData = pm.response.json();\r",
+							"  \r",
+							"  pm.expect(responseData).to.be.an('object');\r",
+							"  pm.expect(responseData.microphone.micGain).to.be.a('number').and.to.satisfy((micGain) => micGain == 45);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5083/receivers/{{receiverId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5083",
+					"path": [
+						"receivers",
+						"{{receiverId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check MicGain Updated Rec",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"MicGain is 45\", function () {\r",
+							"  const responseData = pm.response.text();\r",
+							"  \r",
+							"  pm.expect(responseData).to.be.a('string');\r",
+							"  pm.expect(responseData).to.equal('45');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5248/micgain",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5248",
+					"path": [
+						"micgain"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change MicGain Rec",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 202\", function () {\r",
+							"    pm.response.to.have.status(202);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5248/micgain/75",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5248",
+					"path": [
+						"micgain",
+						"75"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check MicGain Updated BE from Rec",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"MicGain is 75\", function () {\r",
+							"  const responseData = pm.response.json();\r",
+							"  \r",
+							"  pm.expect(responseData).to.be.an('object');\r",
+							"  pm.expect(responseData.microphone.micGain).to.be.a('number').and.to.satisfy((micGain) => micGain == 75);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5083/receivers/{{receiverId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5083",
+					"path": [
+						"receivers",
+						"{{receiverId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reset MicGainRec",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(202);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5248/micgain/60",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5248",
+					"path": [
+						"micgain",
+						"60"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Receiver",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Response status code is 204\", function () {\r",
+							"  pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5083/receivers/{{receiverId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5083",
+					"path": [
+						"receivers",
+						"{{receiverId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "receiverId",
+			"value": "null",
+			"type": "string"
+		},
+		{
+			"key": "initialMicGain",
+			"value": ""
+		},
+		{
+			"key": "initialRecMicGain",
+			"value": ""
+		}
+	]
+}

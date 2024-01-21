@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34322.80
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SennheiserBackend", "SennheiserBackend\SennheiserBackend.csproj", "{22333CF4-748D-4E54-A2BA-174693751911}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SennheiserBackend.Tests", "SennheiserBackend.Tests\SennheiserBackend.Tests.csproj", "{4164B3EC-2417-414D-9915-898C17DB5DE3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SennheiserDeviceSimulator", "SennheiserDeviceSimulator\SennheiserDeviceSimulator.csproj", "{8D1BC7D7-06E6-4011-ABB4-4D1F636ECE51}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Projektmappenelemente", "{011099AE-0807-4BE5-A56A-78D60AF5C169}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		images\architecture.png = images\architecture.png
+		images\postman-collection-menu.png = images\postman-collection-menu.png
+		images\postman-import.png = images\postman-import.png
+		images\postman-run-tests.png = images\postman-run-tests.png
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{972174FD-35C8-449D-983B-7F7EBF3BDA30}"
+	ProjectSection(SolutionItems) = preProject
+		images\architecture.png = images\architecture.png
+		images\postman-collection-menu.png = images\postman-collection-menu.png
+		images\postman-import.png = images\postman-import.png
+		images\postman-run-tests.png = images\postman-run-tests.png
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{22333CF4-748D-4E54-A2BA-174693751911}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22333CF4-748D-4E54-A2BA-174693751911}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22333CF4-748D-4E54-A2BA-174693751911}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22333CF4-748D-4E54-A2BA-174693751911}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4164B3EC-2417-414D-9915-898C17DB5DE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4164B3EC-2417-414D-9915-898C17DB5DE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4164B3EC-2417-414D-9915-898C17DB5DE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4164B3EC-2417-414D-9915-898C17DB5DE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D1BC7D7-06E6-4011-ABB4-4D1F636ECE51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D1BC7D7-06E6-4011-ABB4-4D1F636ECE51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D1BC7D7-06E6-4011-ABB4-4D1F636ECE51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D1BC7D7-06E6-4011-ABB4-4D1F636ECE51}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{972174FD-35C8-449D-983B-7F7EBF3BDA30} = {011099AE-0807-4BE5-A56A-78D60AF5C169}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {00293F84-AC11-4EC8-8456-758020132EAA}
+	EndGlobalSection
+EndGlobal
