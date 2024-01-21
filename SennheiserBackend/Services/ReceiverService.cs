@@ -66,7 +66,7 @@ namespace SennheiserBackend.Services
                     var tryCount = 1;
                     var success = false;
                     
-                    while (tryCount <= MaxDbRetries && !success)
+                    while (tryCount <= MaxDbRetries)
                     {
                         try
                         {

@@ -11,8 +11,8 @@ namespace SennheiserBackend.Tests.UnitTests.ModelTests
         {
             //ARRANGE
             var microphone = new Microphone();
-            Exception exceptionNegative = null;
-            Exception exceptionMax = null;
+            Exception? exceptionNegative = null;
+            Exception? exceptionMax = null;
 
             //ACT
             try

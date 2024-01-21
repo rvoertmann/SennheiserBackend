@@ -14,7 +14,7 @@ namespace SennheiserBackend.Tests.UnitTests.ServiceTests
     [TestClass]
     public class ReceiverClientTest
     {
-        private void ConfigureVerificationMessage(Mock<IReceiverClientWebSocket> webSocketMock, IReceiver testReceiver, int iterationBeforeClose,  WebSocketReceiveResult receiveResult, Action<ArraySegment<byte>, CancellationToken> nextCallback)
+        private static void ConfigureVerificationMessage(Mock<IReceiverClientWebSocket> webSocketMock, IReceiver testReceiver, int iterationBeforeClose,  WebSocketReceiveResult receiveResult, Action<ArraySegment<byte>, CancellationToken> nextCallback)
         {
             var iterations = 0;
 

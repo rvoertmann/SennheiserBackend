@@ -124,8 +124,6 @@ namespace SennheiserBackend.Tests.UnitTests.ServiceTests
             //ARRANGE
             var testData = new ReceiverTestData();
 
-            ReceiverEntity receiverEntity = testData.ReceiverEntities[0];
-
             var repositoryMock = new Mock<IReceiverRepository>();
             repositoryMock.Setup(r => r.GetAll()).ReturnsAsync(testData.ReceiverEntities);
             repositoryMock.Setup(r => r.Update(It.IsAny<ReceiverEntity>())).Throws(new Exception());
